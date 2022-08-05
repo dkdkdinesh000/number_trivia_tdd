@@ -22,15 +22,15 @@ void main() {
 
   test("should get trivia for the number from the repository", () async {
     //arrange
-    when(() => mockNumberTriviaRepository.getConcreteNumber(
-        Params(number: tNumber))).thenAnswer((_) async => Right(tNumberTrivia));
+    when(() => mockNumberTriviaRepository.getConcreteNumber(tNumber))
+        .thenAnswer((_) async => Right(tNumberTrivia));
 
     //act
     final result = await usecase(Params(number: tNumber));
 
     //assett
     expect(result, Right(tNumberTrivia));
-    verify(() => mockNumberTriviaRepository
-        .getConcreteNumber(Params(number: tNumber))).called(1);
+    verify(() => mockNumberTriviaRepository.getConcreteNumber(tNumber))
+        .called(1);
   });
 }

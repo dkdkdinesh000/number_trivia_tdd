@@ -5,6 +5,6 @@ import 'package:number_trivia_tdd/features/number_trivia/domain/entities/number_
 import '../usecases/get_concreate_number_trivia.dart';
 
 abstract class NumberTriviaRepository {
-  Future<Either<Failure, NumberTrivia>> getConcreteNumber(Params number);
+  Future<Either<Failure, NumberTrivia>> getConcreteNumber(int number);
   Future<Either<Failure, NumberTrivia>> getRandomNumber();
 }
