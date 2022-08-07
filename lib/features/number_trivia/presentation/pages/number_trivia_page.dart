@@ -27,9 +27,14 @@ class NumberTriviaPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 3,
-              child: const Placeholder(),
+            BlocBuilder<NumberTriviaBloc, NumberTriviaState>(
+              builder: (context, state) {
+                if (state is Empty) {}
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: const Placeholder(),
+                );
+              },
             ),
             const SizedBox(
               height: 10,

@@ -15,22 +15,15 @@ import 'package:http/http.dart' as http;
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  // ! Features - Number Trivia
-  sl.registerFactory(() =>
-      NumberTriviaBloc(concrete: sl(), random: sl(), inputConverter: sl()));
-
-  // ! Use cases
-  sl.registerSingleton(() => GetConcreteNumberTrivia(sl()));
-  sl.registerSingleton(() => GetRandomNumberTrivia(sl()));
-
-  // ! Repository
-  sl.registerLazySingleton<NumberTriviaRepository>(
-    () => NumberTriviaRepositoryImpl(
-      localDataSource: sl(),
-      remoteDataSource: sl(),
-      networkInfo: sl(),
-    ),
-  );
+  // ! Externals
+  final sharedPrefs = await SharedPreferences.getInstance();
+  sl.registerLazySingleton<SharedPreferences>(() => sharedPrefs);
+  sl.registerLazySingleton<http.Client>(() => http.Client());
+  sl.registerLazySingleton<InternetConnectionChecker>(
+      () => InternetConnectionChecker());
+  // ! Core
+  sl.registerLazySingleton(() => InputConverter());
+  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
   // ! Data sources
   sl.registerLazySingleton<NumberTriviaLocalDataSource>(
@@ -39,14 +32,20 @@ Future<void> init() async {
 
   sl.registerLazySingleton<NumberTriviaRemoteDataSource>(
       () => NumberTriviaRemoteDataSourceImpl(client: sl()));
-
-  // ! Core
-  sl.registerLazySingleton(() => InputConverter());
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
-
-  // ! Externals
-  final sharedPreference = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => sharedPreference);
-  sl.registerLazySingleton(() => http.Client());
-  sl.registerLazySingleton(() => InternetConnectionChecker());
+  // ! Repository
+  sl.registerLazySingleton<NumberTriviaRepository>(
+    () => NumberTriviaRepositoryImpl(
+      localDataSource: sl(),
+      remoteDataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+  // ! Use cases
+  sl.registerSingleton<GetConcreteNumberTrivia>(GetConcreteNumberTrivia(sl()));
+  sl.registerSingleton<GetRandomNumberTrivia>(GetRandomNumberTrivia(sl()));
+  // ! Features - Number Trivia
+  sl.registerFactory(() => NumberTriviaBloc(
+      concrete: sl<GetConcreteNumberTrivia>(),
+      random: sl<GetRandomNumberTrivia>(),
+      inputConverter: sl<InputConverter>()));
 }
