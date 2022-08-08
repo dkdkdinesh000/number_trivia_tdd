@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -57,11 +55,11 @@ void main() {
   }
 
   group('getConcreteNumberTrivia', () {
-    final tNumber = 1;
-    final tNumberTriviaModel =
+    const tNumber = 1;
+    const tNumberTriviaModel =
         NumberTriviaModel(text: 'test trivia', number: tNumber);
 
-    final NumberTrivia tNumberTrivia = tNumberTriviaModel;
+    const NumberTrivia tNumberTrivia = tNumberTriviaModel;
     test('should check if the device is online', () async {
       //arrage
       when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
@@ -89,7 +87,7 @@ void main() {
         final result = await repository.getConcreteNumber(tNumber);
         //assert
         verify(() => mockRemoteDataSource.getConcreteNumber(tNumber)).called(1);
-        expect(result, Right(tNumberTriviaModel));
+        expect(result, const Right(tNumberTriviaModel));
       });
 
       test(
@@ -106,7 +104,7 @@ void main() {
         verify(() => mockRemoteDataSource.getConcreteNumber(tNumber)).called(1);
         verify(() => mockLocalDataSource.cacheNumberTrivia(tNumberTriviaModel))
             .called(1);
-        expect(result, Right(tNumberTriviaModel));
+        expect(result, const Right(tNumberTriviaModel));
       });
 
       test(
@@ -139,7 +137,7 @@ void main() {
         //assert
         verifyZeroInteractions(mockRemoteDataSource);
         verify(() => mockLocalDataSource.getLastNumberTrivia()).called(1);
-        expect(result, Right(tNumberTrivia));
+        expect(result, const Right(tNumberTrivia));
       });
 
       test('should return CacheFailure when there is no cached data is present',
@@ -160,10 +158,10 @@ void main() {
   });
 
   group('getRandomNumberTrivia', () {
-    final tNumberTriviaModel =
+    const tNumberTriviaModel =
         NumberTriviaModel(text: 'test trivia', number: 123);
 
-    final NumberTrivia tNumberTrivia = tNumberTriviaModel;
+    const NumberTrivia tNumberTrivia = tNumberTriviaModel;
     test('should check if the device is online', () async {
       //arrage
       when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
@@ -191,7 +189,7 @@ void main() {
         final result = await repository.getRandomNumber();
         //assert
         verify(() => mockRemoteDataSource.getRandomNumber()).called(1);
-        expect(result, Right(tNumberTriviaModel));
+        expect(result, const Right(tNumberTriviaModel));
       });
 
       test(
@@ -208,7 +206,7 @@ void main() {
         verify(() => mockRemoteDataSource.getRandomNumber()).called(1);
         verify(() => mockLocalDataSource.cacheNumberTrivia(tNumberTriviaModel))
             .called(1);
-        expect(result, Right(tNumberTriviaModel));
+        expect(result, const Right(tNumberTriviaModel));
       });
 
       test(
@@ -241,7 +239,7 @@ void main() {
         //assert
         verifyZeroInteractions(mockRemoteDataSource);
         verify(() => mockLocalDataSource.getLastNumberTrivia()).called(1);
-        expect(result, Right(tNumberTrivia));
+        expect(result, const Right(tNumberTrivia));
       });
 
       test('should return CacheFailure when there is no cached data is present',

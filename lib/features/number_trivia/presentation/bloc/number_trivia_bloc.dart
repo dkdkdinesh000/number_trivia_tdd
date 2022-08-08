@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:number_trivia_tdd/features/core/error/failures.dart';
 import 'package:number_trivia_tdd/features/core/util/input_converter.dart';
 import 'package:number_trivia_tdd/features/number_trivia/domain/entities/number_trivia.dart';
@@ -11,8 +10,11 @@ import 'package:number_trivia_tdd/features/number_trivia/domain/usecases/get_ran
 part 'number_trivia_event.dart';
 part 'number_trivia_state.dart';
 
+// ignore: constant_identifier_names
 const String SERVER_FAILURE_MESSAGE = 'Server Failure';
+// ignore: constant_identifier_names
 const String CACHE_FAILURE_MESSAGE = 'Cache Failure';
+// ignore: constant_identifier_names
 const String INVALID_INPUT_FAILURE_MESSAGE =
     'Invalid Input - The number must be a positive integer or zero.';
 
@@ -40,7 +42,7 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
             emit(Loading());
             final failureOrTrivia =
                 await getConcreteNumberTrivia(Params(number: integer));
-            _eitherLoadedOrErrorState(failureOrTrivia);
+            _eitherLoadedOrErrorState(failureOrTrivia, emit);
 
             // failureOrTrivia.fold((failure) {
             //   emit(Error(message: _mapFailureToMessage(failure)));
@@ -52,7 +54,7 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
       } else if (event is GetTriviaForRandomNumber) {
         emit(Loading());
         final failureOrTrivia = await getRandomNumberTrivia(NoParams());
-        _eitherLoadedOrErrorState(failureOrTrivia);
+        _eitherLoadedOrErrorState(failureOrTrivia, emit);
 
         // failureOrTrivia.fold((failure) {
         //   emit(Error(message: _mapFailureToMessage(failure)));
@@ -63,9 +65,8 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
     });
   }
 
-  void _eitherLoadedOrErrorState(
-    Either<Failure, NumberTrivia> either,
-  ) async {
+  void _eitherLoadedOrErrorState(Either<Failure, NumberTrivia> either,
+      Emitter<NumberTriviaState> emit) async {
     either.fold(
       (failure) => emit(Error(message: _mapFailureToMessage(failure))),
       (trivia) => emit(Loaded(trivia: trivia)),

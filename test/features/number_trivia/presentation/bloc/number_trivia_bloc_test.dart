@@ -38,13 +38,13 @@ void main() {
   });
 
   group('GetTriviaForConcreteNumber', () {
-    final tNumberString = '1';
-    final tNumberParsed = 1;
+    const tNumberString = '1';
+    const tNumberParsed = 1;
     const tNumberTrivia = NumberTrivia(text: 'test trivia', number: 1);
 
     void setUpMockInputConverterSuccess() =>
         when(() => mockInputConverter.stringToUnsignedInteger(tNumberString))
-            .thenReturn(Right(tNumberParsed));
+            .thenReturn(const Right(tNumberParsed));
 
     void setUpMockInputConverterFailure() =>
         when(() => mockInputConverter.stringToUnsignedInteger(tNumberString))
@@ -55,10 +55,10 @@ void main() {
         () async {
       //arrange
       setUpMockInputConverterSuccess();
-      when(() => mockGetConcreteNumberTrivia(Params(number: tNumberParsed)))
+      when(() => mockGetConcreteNumberTrivia(const Params(number: tNumberParsed)))
           .thenAnswer((_) async => const Right(tNumberTrivia));
       //act
-      bloc.add(GetTriviaForConcreteNumber(tNumberString));
+      bloc.add(const GetTriviaForConcreteNumber(tNumberString));
 
       await untilCalled(
           () => mockInputConverter.stringToUnsignedInteger(any()));
@@ -78,21 +78,21 @@ void main() {
 
       expectLater(bloc.stream, emitsInOrder(expected));
 
-      bloc.add(GetTriviaForConcreteNumber(tNumberString));
+      bloc.add(const GetTriviaForConcreteNumber(tNumberString));
     });
 
     test('should get data from the concrete use case', () async {
       setUpMockInputConverterSuccess();
-      when(() => mockGetConcreteNumberTrivia(Params(number: tNumberParsed)))
+      when(() => mockGetConcreteNumberTrivia(const Params(number: tNumberParsed)))
           .thenAnswer((_) async => const Right(tNumberTrivia));
 
-      bloc.add(GetTriviaForConcreteNumber(tNumberString));
+      bloc.add(const GetTriviaForConcreteNumber(tNumberString));
 
       await untilCalled(
-          () => mockGetConcreteNumberTrivia(Params(number: tNumberParsed)));
+          () => mockGetConcreteNumberTrivia(const Params(number: tNumberParsed)));
 
       verify(
-        () => mockGetConcreteNumberTrivia(Params(number: tNumberParsed)),
+        () => mockGetConcreteNumberTrivia(const Params(number: tNumberParsed)),
       );
     });
 
@@ -100,7 +100,7 @@ void main() {
         () async {
       //arrange
       setUpMockInputConverterSuccess();
-      when(() => mockGetConcreteNumberTrivia(Params(number: tNumberParsed)))
+      when(() => mockGetConcreteNumberTrivia(const Params(number: tNumberParsed)))
           .thenAnswer((invocation) async => const Right(tNumberTrivia));
       //assert later
       final expected = [
@@ -110,7 +110,7 @@ void main() {
       expect(bloc.stream, emitsInOrder(expected));
 
       //act
-      bloc.add(GetTriviaForConcreteNumber(tNumberString));
+      bloc.add(const GetTriviaForConcreteNumber(tNumberString));
     });
 
     test(
@@ -118,7 +118,7 @@ void main() {
         () async {
       //arrange
       setUpMockInputConverterSuccess();
-      when(() => mockGetConcreteNumberTrivia(Params(number: tNumberParsed)))
+      when(() => mockGetConcreteNumberTrivia(const Params(number: tNumberParsed)))
           .thenAnswer((invocation) async => Left(ServerFailure()));
       //assert later
       final expected = [
@@ -128,7 +128,7 @@ void main() {
       expect(bloc.stream, emitsInOrder(expected));
 
       //act
-      bloc.add(GetTriviaForConcreteNumber(tNumberString));
+      bloc.add(const GetTriviaForConcreteNumber(tNumberString));
     });
 
     test(
@@ -136,14 +136,14 @@ void main() {
         () async {
       //arrange
       setUpMockInputConverterSuccess();
-      when(() => mockGetConcreteNumberTrivia(Params(number: tNumberParsed)))
+      when(() => mockGetConcreteNumberTrivia(const Params(number: tNumberParsed)))
           .thenAnswer((invocation) async => Left(CacheFailure()));
       //assert later
       final expected = [Loading(), const Error(message: CACHE_FAILURE_MESSAGE)];
       expect(bloc.stream, emitsInOrder(expected));
 
       //act
-      bloc.add(GetTriviaForConcreteNumber(tNumberString));
+      bloc.add(const GetTriviaForConcreteNumber(tNumberString));
     });
   });
 

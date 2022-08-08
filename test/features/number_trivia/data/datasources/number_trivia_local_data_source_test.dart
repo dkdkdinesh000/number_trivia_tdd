@@ -43,7 +43,7 @@ void main() {
       //arrange
       when(() => mockSharedPreferences.getString(any())).thenReturn(null);
       //act
-      final call = await dataSource.getLastNumberTrivia;
+      final call = dataSource.getLastNumberTrivia;
 
       //assert
 

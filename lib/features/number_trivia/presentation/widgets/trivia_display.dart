@@ -8,8 +8,7 @@ class TriviaDisplay extends StatelessWidget {
   const TriviaDisplay({
     Key? key,
     required this.numberTrivia,
-  })  : assert(numberTrivia != null),
-        super(key: key);
+  })  : super(key: key);
 
   @override
   Widget build(BuildContext context) {

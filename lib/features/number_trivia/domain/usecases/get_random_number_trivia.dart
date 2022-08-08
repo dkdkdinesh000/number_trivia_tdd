@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:number_trivia_tdd/features/core/error/failures.dart';
 import 'package:number_trivia_tdd/features/core/usecases/usecase.dart';
 import 'package:number_trivia_tdd/features/number_trivia/domain/entities/number_trivia.dart';
-import 'package:number_trivia_tdd/features/number_trivia/domain/usecases/get_concreate_number_trivia.dart';
 
 import '../repositories/number_trivia_repository.dart';
 

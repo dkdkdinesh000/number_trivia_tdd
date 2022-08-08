@@ -7,9 +7,8 @@ import 'package:number_trivia_tdd/features/number_trivia/domain/entities/number_
 import 'package:number_trivia_tdd/features/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:number_trivia_tdd/features/number_trivia/domain/repositories/number_trivia_repository.dart';
-import 'package:number_trivia_tdd/features/number_trivia/domain/usecases/get_concreate_number_trivia.dart';
 
-typedef Future<NumberTriviaModel> _ConcreteOrRandomChooser();
+typedef _ConcreteOrRandomChooser = Future<NumberTriviaModel> Function();
 
 class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   final NumberTriviaRemoteDataSource remoteDataSource;
